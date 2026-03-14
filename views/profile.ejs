@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | HopeBank</title>
+
+    <link rel="stylesheet" href="/stylesheet/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #023e8a, #0077b6);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 10px;
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            color: #023e8a;
+            text-transform: capitalize;
+        }
+
+        .profile-bio {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        .user-details {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+
+        .user-details h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: #023e8a;
+            border-bottom: 2px solid #0077b6;
+            padding-bottom: 10px;
+        }
+
+        .user-details p {
+            font-size: 1.1rem;
+            margin: 15px 0;
+            color: #495057;
+        }
+
+        .user-details strong {
+            color: #023e8a;
+            margin-right: 10px;
+        }
+
+        .edit-profile-form {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .edit-profile-form h2 {
+            color: #023e8a;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #0077b6;
+            padding-bottom: 10px;
+        }
+
+        .edit-profile-form label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .edit-profile-form input,
+        .edit-profile-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-profile-form input:focus,
+        .edit-profile-form textarea:focus {
+            border-color: #0077b6;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 119, 182, 0.2);
+        }
+
+        .edit-profile-form button {
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #023e8a, #0077b6);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .edit-profile-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 119, 182, 0.3);
+        }
+    </style>
+        <link rel="stylesheet" href="/stylesheet/style.css">
+</head>
+
+<body>
+    <!-- Fixed Navigation Bar -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                    <% if (locals.isLoggedIn) { %>
+                        <div class="user-menu">
+                            <div class="profile-dropdown">
+                                <button class="profile-icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="/profile">Profile</a>
+                                    <a href="/Wishlist">Wishlist</a>
+                                    <a href="/history">History</a>
+                                </div>
+                            </div>
+                            <a href="/logout" class="cta-button login-btn">Logout</a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="cta-button login-btn">Login</a>
+                    <% } %>
+                </div>
+                <div class="menu-toggle" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <main style="padding-top: 100px;">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h1 class="profile-name">
+                        <%= user.username %>
+                    </h1>
+                </div>
+
+                <div class="user-details">
+                    <h2>User Details</h2>
+                    <p><strong>Email:</strong>
+                        <%= user.email %>
+                    </p>
+                    <p><strong>Mobile Number:</strong>
+                        <%= user.phone %>
+                    </p>
+                    
+                </div>
+
+                <form class="edit-profile-form" action="/profile" method="POST">
+                    <h2>Edit Profile</h2>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Name" value="<%= user.username %>" required />
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email" value="<%= user.email %>"
+                        required />
+
+                    <label for="phone">Mobile Number</label>
+                    <input type="text" id="phone" name="phone" placeholder="Mobile Number" value="<%= user.phone %>"
+                        required />
+
+                    <button type="submit">Update Profile</button>
+                </form>
+                <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                    <div class="errors">
+                        <% errors.forEach(error => { %>
+                            <div class="error">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <%= error.msg %>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>                       
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <br>
+                <p>HopeBank is a platform that helps people to contribute to different causes like education, healthcare, animal welfare, and more, easily and securely.</p>
+            </div>
+            <div class="col">
+                <h3>Causes</h3>
+                <ul class="footerlist">
+                    <li>Medical</li>
+                    <li>Crowdfunding</li>
+                    <li>Education</li>
+                    <li>Animal Welfare</li>
+                    <li>NGOs or Charities</li>
+                    <li>Orphanage</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Links</h3>
+                <ul class="footerlist">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Connect with Us</h3>
+                <div class="icon">
+                    <a href="https://facebook.com" class="a1"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://whatsapp.com"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="row2">
+            <p class="copywrite">HopeBank © copyrights 2024-2025</p>
+        </div>
+    </footer> 
+    <script src="/javascript/script.js"></script>
+</body>
+
+</html>

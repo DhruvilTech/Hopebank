@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urgent Requests - Hope Bank Admin</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /* Reuse existing admin dashboard styles */
+        .admin-dashboard {
+            padding: 120px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .data-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Update existing styles */
+        .urgent-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 30px;
+        }
+
+        .urgent-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 180, 216, 0.2);
+            border-color: var(--secondary-color);
+        }
+
+        /* Add new styles */
+        .case-image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .case-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .urgent-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-item strong {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .info-item p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .urgent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .urgent-header h3 {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .urgent-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-approve {
+            background: var(--gradient-teal);
+            color: white;
+        }
+
+        .btn-reject {
+            background: #ff3b30;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef7e0;
+            color: #b06000;
+        }
+
+        .status-approved {
+            background: #e6f4ea;
+            color: #1e8e3e;
+        }
+
+        .status-rejected {
+            background: #fde7e9;
+            color: #d93025;
+        }
+
+        .no-requests {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* Header Styles */
+        .admin-header {
+            background: var(--gradient-blue);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .admin-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-logo i {
+            font-size: 24px;
+        }
+
+        .admin-logo span {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .admin-nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .admin-nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-nav-links a i {
+            font-size: 16px;
+        }
+
+        .admin-nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .admin-nav-links a.active {
+            background: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        /* Footer Styles */
+        .admin-footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .admin-footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 768px) {
+            .admin-nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .admin-nav-links {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .admin-nav-links a {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .admin-dashboard {
+                padding-top: 180px;
+            }
+        }
+        footer
+        {
+            position: relative;
+            bottom: 0;
+            
+        }
+    </style>
+</head>
+<body>
+    <!-- Reuse admin header from dashboard -->
+    <header class="admin-header">
+        <nav class="admin-nav">
+            <a href="/admin/dashboard" class="admin-logo">
+                <i class="fas fa-hand-holding-heart"></i>
+                <span>Hope Bank Admin</span>
+            </a>
+            <div class="admin-nav-links">
+                <a href="/admin/dashboard">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="/admin/urgent-requests" class="active">
+                    <i class="fas fa-exclamation-circle"></i> Urgent Requests
+                </a>
+                <a href="/" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> View Site
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="admin-dashboard">
+        <h1 class="section-title">Urgent Requests</h1>
+
+        <div class="data-section">
+            <% if (urgentRequests && urgentRequests.length > 0) { %>
+                <% urgentRequests.forEach(request => { %>
+                    <div class="urgent-card">
+                        <div class="urgent-header">
+                            <h3><%= request.receiverId.Username %></h3>
+                            <span class="status-badge status-<%= request.status %>">
+                                <%= request.status.toUpperCase() %>
+                            </span>
+                        </div>
+
+                        <!-- Add image container -->
+                        <div class="case-image-container">
+                            <img src="<%= request.receiverId.image %>" 
+                                 alt="<%= request.receiverId.Username %>'s case" 
+                                 class="case-image"
+                                 onerror="this.src='/images/default-case.jpg'">
+                        </div>
+
+                        <div class="urgent-info">
+                            <div class="info-item">
+                                <strong>Reason for Request:</strong>
+                                <p><%= request.reason %></p>
+                            </div>
+                            <div class="info-item">
+                                <strong>Required Amount:</strong>
+                                <p>₹<%= request.receiverId.requiredMoney.toLocaleString() %></p>
+                            </div>
+                            <div class="info-item">
+                                <strong>Raised Amount:</strong>
+                                <p>₹<%= request.receiverId.raisedAmount.toLocaleString() %></p>
+                            </div>
+                            <div class="info-item">
+                                <strong>Request Date:</strong>
+                                <p><%= new Date(request.requestDate).toLocaleDateString('en-IN', { 
+                                    year: 'numeric', 
+                                    month: 'long', 
+                                    day: 'numeric' 
+                                }) %></p>
+                            </div>
+                        </div>
+
+                        <!-- Add progress bar -->
+                        <div class="progress-bar" data-progress="<%= Math.round((request.receiverId.raisedAmount / request.receiverId.requiredMoney) * 100) %>">
+                            <progress value="<%= request.receiverId.raisedAmount %>" max="<%= request.receiverId.requiredMoney %>"></progress>
+                        </div>
+
+                        <% if (request.status === 'pending') { %>
+                            <div class="urgent-actions">
+                                <button class="btn btn-approve" onclick="handleRequest('<%= request._id %>', 'approve')">
+                                    <i class="fas fa-check"></i> Approve Request
+                                </button>
+                                <button class="btn btn-reject" onclick="handleRequest('<%= request._id %>', 'reject')">
+                                    <i class="fas fa-times"></i> Reject Request
+                                </button>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-requests">
+                    <i class="fas fa-inbox fa-3x"></i>
+                    <h3>No urgent requests found</h3>
+                    <p>There are currently no urgent requests to review.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Reuse admin footer from dashboard -->
+    <footer class="admin-footer">
+        <p>&copy; <%= new Date().getFullYear() %> Hope Bank Admin Panel. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function handleRequest(requestId, action) {
+            if (confirm(`Are you sure you want to ${action} this request?`)) {
+                fetch(`/admin/urgent-requests/${requestId}/${action}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message before reloading
+                        alert(`Request ${action}ed successfully`);
+                        location.reload();
+                    } else {
+                        alert(data.message || 'Failed to process request');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to process request');
+                });
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Sent - Hope Bank</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="/stylesheet/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .success-container {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            color: #023E8A;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .email-icon {
+            color: #00B4D8;
+            font-size: 40px;
+            margin: 20px 0;
+        }
+
+        .timer {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .action-button {
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .primary-button {
+            background: #00B4D8;
+            color: white;
+        }
+
+        .primary-button:hover {
+            background: #0096b5;
+        }
+
+        .secondary-button {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .secondary-button:hover {
+            background: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <section class="login-section">
+        <div class="login-container">
+            <div class="success-container">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2 class="success-title">Email Sent Successfully!</h2>
+                <p class="success-message">
+                    We've sent password reset instructions to your email address.
+                    Please check your inbox and follow the instructions to reset your password.
+                </p>
+                <i class="fas fa-envelope email-icon"></i>
+                <p class="success-message">
+                    Didn't receive the email? Check your spam folder or try again in a few minutes.
+                </p>
+                <p class="timer">
+                    The reset link will expire in 60 minutes
+                </p>
+                <div class="action-buttons">
+                    <a href="/login" class="action-button primary-button">
+                        Back to Login
+                    </a>
+                    <a href="/forgot-password" class="action-button secondary-button">
+                        Try Again
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Optional: Add auto-redirect after 30 seconds
+        setTimeout(() => {
+            window.location.href = '/login';
+        }, 30000);
+    </script>
+</body>
+</html> 

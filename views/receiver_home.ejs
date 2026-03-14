@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - HopeBank</title>
+    <link rel="shortcut icon" href="/imager/image.png">
+    
+    <link rel="stylesheet" href="/stylesheet/receiver.css">
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .profile-image-container {
+            width: 200px;  /* Increased from default size */
+            height: 200px; /* Increased from default size */
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 3px solid #3498db;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Also increase the size of profile images in the dropdown */
+        .profile-img {
+            width: 45px;    /* Increased from default size */
+            height: 45px;   /* Increased from default size */
+            border-radius: 50%;
+        }
+
+        .profile-img-large {
+            width: 60px;    /* Increased from default size */
+            height: 60px;   /* Increased from default size */
+            border-radius: 50%;
+        }
+        
+        .progress-container {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .urgent-button {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .urgent-button.approved {
+            background-color: #34c759;
+            color: white;
+            cursor: default;
+        }
+
+        .urgent-button.pending {
+            background-color: #ffcc00;
+            color: white;
+            cursor: default;
+        }
+
+        .urgent-button:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .urgent-button i {
+            font-size: 16px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .status-badge.pending {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .status-badge.approved {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-badge.rejected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .urgent-button.request {
+            background: var(--gradient-teal);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .urgent-button.retry {
+            background: #dc3545;
+            color: white;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="/receiv/edit_profile">Profile</a>
+                    
+                       
+                
+                    <a href="/logout" class="cta-button login-btn">Logout</a>
+                </div>
+                <div class="menu-toggle" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-image-container">
+                    <img src="<%= receiver.image ? receiver.image : '/default-profile.png' %>" 
+                    alt="Profile Picture" class="profile-image">
+               
+                </div>
+                <div class="profile-info">
+                    <h1><%= receiver.Username %></h1>
+                    <p><i class="fas fa-map-marker-alt"></i> <%= receiver.address %></p>
+                    <p><i class="fas fa-envelope"></i> <%= receiver.email %></p>
+                    <p><i class="fas fa-phone"></i> <%= receiver.phone %></p>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <i class="fas fa-hand-holding-usd stat-icon"></i>
+                    <div class="stat-number">₹<%= receiver.raisedAmount.toLocaleString('en-IN') %></div>
+                    <div class="stat-label">Amount Raised</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-number"><%= donorCount %></div>
+                    <div class="stat-label">Total Donors</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-line stat-icon"></i>
+                    <div class="stat-number"><%= Math.round((receiver.raisedAmount / receiver.requiredMoney) * 100) %>%</div>
+                    <div class="stat-label">Goal Progress</div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3>Fundraising Progress</h3>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: <%= (receiver.raisedAmount / receiver.requiredMoney) * 100 %>%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>₹<%= receiver.raisedAmount.toLocaleString('en-IN') %> raised</span>
+                        <span>of ₹<%= receiver.requiredMoney.toLocaleString('en-IN') %> goal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>Campaign Details</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Purpose</label>
+                        <p><%= receiver.Description %></p>
+                    </div>
+                    <div class="info-item">
+                        <label>Category</label>
+                        <p><%= receiver.causes %></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <div id="urgentRequestSection">
+                    <% if (!receiver.urgentStatus) { %>
+                        <button onclick="requestUrgent()" class="urgent-button request">
+                            <i class="fas fa-exclamation-circle"></i>
+                            Request Urgent Status
+                        </button>
+                    <% } else if (receiver.urgentStatus === 'pending') { %>
+                        <div class="status-badge pending">
+                            <i class="fas fa-clock"></i>
+                            <span>Request Pending Approval</span>
+                        </div>
+                    <% } else if (receiver.urgentStatus === 'approved') { %>
+                        <div class="status-badge approved">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Request Approved</span>
+                        </div>
+                    <% } else if (receiver.urgentStatus === 'rejected') { %>
+                        <div class="status-badge rejected">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Request Rejected</span>
+                            <button onclick="requestUrgent()" class="urgent-button retry">
+                                <i class="fas fa-redo"></i>
+                                Request Again
+                            </button>
+                        </div>
+                    <% } %>
+                </div>
+                
+                <button onclick="deleteAccount()" class="delete-button">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete Account
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <br>
+                <p>HopeBank is a platform that helps people to contribute to different causes like education, healthcare, animal welfare, and more, easily and securely.</p>
+            </div>
+            <div class="col">
+                <h3>Causes</h3>
+                <ul class="footerlist">
+                    <li>Medical</li>
+                    <li>Crowdfunding</li>
+                    <li>Education</li>
+                    <li>Animal Welfare</li>
+                    <li>NGOs or Charities</li>
+                    <li>Orphanage</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Links</h3>
+                <ul class="footerlist">
+                    <li><a href="/receiv/home">Home</a></li>
+                    <li><a href="/receiv/edit_profile">profile</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Connect with Us</h3>
+                <div class="icon">
+                    <a href="https://facebook.com" class="a1"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://whatsapp.com"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="row2">
+            <p class="copywrite">HopeBank © copyrights 2024-2025</p>
+        </div>
+    </footer> 
+
+    <script>
+        function requestUrgent() {
+            if(confirm('Are you sure you want to mark this campaign as urgent?')) {
+                const reason = prompt('Please enter a reason for the urgent request:');
+                
+                if (!reason) {
+                    alert('Please provide a reason for your urgent request.');
+                    return;
+                }
+                
+                // Update UI immediately to show pending state
+                document.getElementById('urgentRequestSection').innerHTML = `
+                    <div class="status-badge pending">
+                        <i class="fas fa-clock"></i>
+                        <span>Request Pending Approval</span>
+                    </div>
+                `;
+                
+                fetch('/receiv/request-urgent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reason: reason
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        // No need to reload the page as we've already updated the UI
+                        console.log('Request submitted successfully');
+                    } else {
+                        // Revert UI if request failed
+                        alert(data.message || 'Failed to submit urgent request');
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting the request');
+                    location.reload();
+                });
+            }
+        }
+
+        // Add function to check status periodically
+        function checkUrgentStatus() {
+            fetch('/receiv/check-urgent-status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'approved') {
+                        document.getElementById('urgentRequestSection').innerHTML = `
+                            <div class="status-badge approved">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Request Approved</span>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => console.error('Error checking status:', error));
+        }
+
+        // Check status every 30 seconds
+        setInterval(checkUrgentStatus, 30000);
+
+        function deleteAccount() {
+            if(confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                fetch('/receiv/delete-account', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        alert('Account deleted successfully');
+                        window.location.href = '/';
+                    } else {
+                        alert('Failed to delete account');
+                    }
+                });
+            }
+        }
+    </script>
+     <script src="/javascript/script.js"></script>
+    
+</body>
+</html>

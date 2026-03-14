@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                    <% if (locals.isLoggedIn) { %>
+                        <div class="user-menu">
+                            <div class="profile-dropdown">
+                                <button class="profile-icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="/profile">Profile</a>
+                                    <a href="/Wishlist">Wishlist</a>
+                                    <a href="/history">History</a>
+                                </div>
+                            </div>
+                            <a href="/logout" class="cta-button login-btn">Logout</a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="cta-button login-btn">Login</a>
+                    <% } %>
+                </div>
+                <div class="menu-toggle" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="container">
+            <h1 class="floating">Transform Your Donation Management</h1>
+            <p>Streamline your charitable operations with our powerful and intuitive platform</p>
+        </div>
+    </section>
+    <!--urgent -->
+    <section>
+        <h2 class="section-title">Urgent Projects</h2>
+        <div class="sg">
+            <% if (urgentReceivers && urgentReceivers.length > 0) { %>
+                <% urgentReceivers.forEach(receiver => { %>
+                    <div class="urgent" onclick="goToDetails(event, '<%= receiver._id %>')">
+                        <div class="case-image-container">
+                            <img src="<%= receiver.image %>" 
+                                 alt="<%= receiver.Username %>'s case" 
+                                 class="urgent-image"
+                                 onerror="this.src='/images/default-case.jpg'">
+                        </div>
+                        <div class="urgent-content">
+                            <h3><%= receiver.Username %></h3>
+                            <div class="urgent-details">
+                                <p><strong>Cause:</strong> <%= receiver.causes %></p>
+                                <p class="case-contact">
+                                    <i class="fas fa-phone"></i>
+                                    Contact: <%= receiver.phone %>
+                                </p>
+                                <p class="case-address">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Address: <%= receiver.address %>
+                                </p>
+                                <p><%= receiver.Description.substring(0, 100) %>...</p>
+                                <div class="progress-bar" data-progress="<%= Math.round((receiver.raisedAmount / receiver.requiredMoney) * 100) %>">
+                                    <progress value="<%= receiver.raisedAmount %>" max="<%= receiver.requiredMoney %>"></progress>
+                                </div>
+                                <div class="amount-details">
+                                    <span>₹<%= receiver.raisedAmount.toLocaleString('en-IN') %> raised</span>
+                                    <span>of ₹<%= receiver.requiredMoney.toLocaleString('en-IN') %></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="button"><a href="/payment/<%= receiver._id %>" class="donate-now-btn" style="text-decoration: none;">
+                            <i class="fas fa-heart"></i> Donate Now
+                        </a></div>
+                        
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-urgent-cases">
+                    <i class="fas fa-info-circle"></i>
+                    <p>No urgent cases at the moment.</p>
+                </div>
+            <% } %>
+        </div>
+    </section>
+    <br>
+    <br>
+    
+    <!--divs -->
+    <section>
+    <h2 class="section-title">Causes</h2>
+    <div class="sg">
+        <div class="urgent">
+            <div class="section-header">
+                <div class="section-icon">
+                    <img src="https://www.svgrepo.com/show/334179/plus-medical.svg" alt="Medical Aid Icon">
+                </div>
+                <h3>Medical Aid</h3>
+            </div>
+            <p>Support critical surgeries, treatments, and medical supplies for those who can't afford healthcare.</p>
+            <a href="/medicaldonate"><button class="donate-now-btn">Support Medical Aid</button></a>
+        </div>
+
+        <div class="urgent">
+            <div class="section-header">
+                <div class="section-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="Education Icon">
+                </div>
+                <h3>Education</h3>
+            </div>
+            <p>Help provide quality education, school supplies, and scholarships to underprivileged students.</p>
+            <a href="/educationdonate"><button class="donate-now-btn">Support Education</button></a>
+        </div>
+
+        <div class="urgent">
+            <div class="section-header">
+                <div class="section-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3127/3127995.png" alt="NGO Support Icon">
+                </div>
+                <h3>NGO Support</h3>
+            </div>
+            <p>Empower local NGOs working on community development and social welfare projects.</p>
+                <a href="/ngodonate"><button class="donate-now-btn">Support NGOs</button></a>
+        </div>
+
+        <div class="urgent">
+            <div class="section-header">
+                <div class="section-icon">
+                    <img src="https://cdn.pixabay.com/photo/2013/07/13/01/13/paw-155322_640.png" alt="Animal">
+                </div>
+                <h3>Animal</h3>
+            </div>
+            <p>Provide immediate rescue, shelter, medical care, and long-term rehabilitation to animals affected by natural disasters..</p>
+            <a href="/animaldonate"><button class="donate-now-btn">Support animals</button></a>
+        </div>
+
+        <div class="urgent">
+            <div class="section-header">
+                <div class="section-icon">
+                    <img src="/imager/download (2).png" alt="ce">
+                </div>
+                <h3>Orphanage/OldAge Home</h3>
+            </div>
+            <p>Support food banks and nutrition programs to help children and elderly people fight hunger in vulnerable communities.
+            </p>
+            <a href="/cedonate"><button class="donate-now-btn">Support</button></a>
+        </div>
+
+        <div class="urgent">
+            <div class="section-header">
+                <div class="section-icon">
+                    <img src="/imager/download (1).png" alt="other">
+                </div>
+                <h3>Other</h3>
+            </div>
+            <p>Provide a user-friendly platform that empowers individuals to improve their own conditions.</p>
+            <a href="/otherdonate"><button class="donate-now-btn">Support other</button></a>
+        </div>
+    </div>
+</section>
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Our Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Smart Analytics</h3>
+                    <p>Track donations and generate insights with our powerful analytics tools</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure Payments</h3>
+                    <p>Process donations securely with multiple payment options</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Ready</h3>
+                    <p>Manage donations on the go with our responsive platform</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <br>
+                <p>HopeBank is a platform that helps people to contribute to different causes like education, healthcare, animal welfare, and more, easily and securely.</p>
+            </div>
+            <div class="col">
+                <h3>Causes</h3>
+                <ul class="footerlist">
+                    <li>Medical</li>
+                    <li>Crowdfunding</li>
+                    <li>Education</li>
+                    <li>Animal Welfare</li>
+                    <li>NGOs or Charities</li>
+                    <li>Orphanage</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Links</h3>
+                <ul class="footerlist">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Connect with Us</h3>
+                <div class="icon">
+                    <a href="https://facebook.com" class="a1"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://whatsapp.com"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="row2">
+            <p class="copywrite">HopeBank © copyrights 2024-2025</p>
+        </div>
+    </footer> 
+    <script src="/javascript/script.js"></script>
+    
+    <script>
+        function goToDetails(event, id) {
+            // Don't navigate if clicking on the donate button
+            if (!event.target.closest('.donate-now-btn')) {
+                window.location.href = `/receiver/${id}`;
+            }
+        }
+    </script>
+</body>
+</html>

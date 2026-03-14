@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope Bank-Donor Sign</title>
+    <link rel="stylesheet" href="/stylesheet/login.css">
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <section class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <h2 class="section-title">Welcome</h2>
+                <form class="login-form" method="POST" action="/signd" novalidate>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" 
+                               value="<%= locals.formData ? formData.username : '' %>"
+                               placeholder="Enter your username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" 
+                               placeholder="Enter your password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" 
+                               value="<%= locals.formData ? formData.email : '' %>"
+                               placeholder="Enter your email" required>    
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" name="phone" id="phone" 
+                               value="<%= locals.formData ? formData.phone : '' %>"
+                               placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" name="address" id="address" 
+                               value="<%= locals.formData ? formData.address : '' %>"
+                               placeholder="Enter your address" required>
+                    </div>
+
+                    <button type="submit" class="cta-button">Sign Up</button>
+                </form>
+                <% if (typeof errors !== 'undefined') { %>
+                    <div class="errors">
+                        <% errors.forEach(error => { %>
+                            <div class="error"><%= error.msg %></div>
+                        <% }) %>
+                    </div>
+                <% } %>                       
+            </div>
+        </div>
+    </section>
+
+    <script src="/javascript/script.js"></script>
+    <script src="/javascript/signd.js"></script>
+</body>
+</html>

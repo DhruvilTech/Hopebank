@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope Bank - Login</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="/stylesheet/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+       
+
+    <section class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <h2 class="section-title">Welcome Back</h2>
+                <form action="/receiv/loginr" method="post" class="login-form" id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="Username">Username</label>
+                        <input type="text" name="Username" id="Username" 
+                               value="<%= locals.oldInput ? oldInput.Username : '' %>"
+                               placeholder="Enter your username">
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" 
+                               placeholder="Enter your password">
+                        <div class="error-message"></div>
+                    </div>
+                    <button type="submit" class="cta-button">Login</button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="/select">Sign Up</a></p>
+                    <p>Forgot your password? <a href="/receiv/forgot-password">Reset it here</a></p>
+                </div>
+                
+                <% if (typeof errors !== 'undefined') { %>
+                    <div class="errors">
+                        <% errors.forEach(error => { %>
+                            <div class="error"><%= error.msg %></div>
+                        <% }) %>
+                    </div>
+                <% } %>             
+            </div>
+        </div>
+    </section>
+
+    <script src="/javascript/script.js"></script>
+    <script src="/javascript/loginr.js"></script>
+</body>
+</html>

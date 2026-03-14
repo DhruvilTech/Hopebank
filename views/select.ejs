@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        :root {
+            --primary-color: #00B4D8;     /* Bright Teal */
+            --secondary-color: #90E0EF;   /* Light Teal */
+            --accent-color: #023E8A;      /* Deep Blue */
+            --bg-primary: #E8FFF9;        /* Mint White */
+            --bg-secondary: #CAF0F8;      /* Light Cyan */
+            --text-dark: #03045E;         /* Dark Blue */
+            --text-light: #0077B6;        /* Medium Blue */
+            --text-white: #FFFFFF;
+            --gradient-teal: linear-gradient(45deg, #00B4D8, #90E0EF);
+            --gradient-blue: linear-gradient(45deg, #023E8A, #0077B6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+            text-align: center;
+            width: 400px;
+            border: 1px solid rgba(144, 224, 239, 0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(0);
+        }
+
+        .signup:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 180, 216, 0.2);
+            border-color: var(--secondary-color);
+        }
+
+        .signup h2 {
+            color: var(--text-dark);
+            font-size: 32px;
+            margin-bottom: 30px;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .signup h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-teal);
+            border-radius: 2px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .role-button {
+            display: block;
+            width: 100%;
+            padding: 15px 30px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            background: transparent;
+            font-size: 18px;
+            color: var(--text-light);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .role-button:hover {
+            background: var(--gradient-teal);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3);
+        }
+
+
+
+        @media screen and (max-width: 480px) {
+            .signup {
+                width: 90%;
+                padding: 30px 20px;
+            }
+
+            .signup h2 {
+                font-size: 28px;
+            }
+
+            .role-button {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup">
+        <h2>Choose Your Role</h2>
+        <br>
+        <div class="button-container">
+            <button class="role-button" onclick="redirectToPage('/signd')">Donor</button>
+            <button class="role-button" onclick="redirectToPage('/signr')">Receiver</button>
+        </div>
+    </div>
+    <script>
+        function redirectToPage(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Hope Bank</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .about-hero {
+            padding: 180px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(rgba(2, 62, 138, 0.7), rgba(0, 180, 216, 0.7)), url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .about-hero h1 {
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .about-hero p {
+            animation: fadeInUp 1s ease-out 0.5s;
+            animation-fill-mode: both;
+            color: white;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats-section {
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.9);
+            margin: 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.1);
+            transition: all 0.3s ease;
+            animation: countUp 1s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 180, 216, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .mission-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .mission-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .mission-text {
+            text-align: left;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .mission-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+            animation: slideIn 1s ease-out;
+            transition: transform 0.3s ease;
+        }
+
+        .mission-image:hover {
+            transform: scale(1.02);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .team-section {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            margin: 20px;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(2, 62, 138, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 180, 216, 0.2);
+        }
+
+        .member-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover .member-image {
+            transform: scale(1.05);
+        }
+
+        .team-member h3 {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .team-member p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        @media screen and (max-width: 1024px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .mission-content {
+                grid-template-columns: 1fr;
+                padding: 30px;
+                margin: 0 20px;
+            }
+
+            .mission-image {
+                height: 300px;
+                order: -1;
+            }
+
+            .mission-text {
+                text-align: center;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-member {
+                padding: 20px;
+            }
+
+            .member-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                    <% if (locals.isLoggedIn) { %>
+                        <div class="user-menu">
+                            <div class="profile-dropdown">
+                                <button class="profile-icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="/profile">Profile</a>
+                                    <a href="/Wishlist">Wishlist</a>
+                                    <a href="/history">History</a>
+                                </div>
+                            </div>
+                            <a href="/logout" class="cta-button login-btn">Logout</a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="cta-button login-btn">Login</a>
+                    <% } %>
+                </div>
+                <div class="menu-toggle" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <div class="container">
+            <h1 class="section-title">About Hope Bank</h1>
+            <p>Making a difference through transparent and efficient donation management</p>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <div class="container">
+            <div class="mission-content">
+                <div class="mission-text">
+                    <h2>Our Mission</h2>
+                    <p>At Hope Bank, we believe in the power of collective giving to create meaningful change. Our mission is to connect generous donors with those in need through a transparent, efficient, and secure platform.</p>
+                    <p>Since our establishment, we've facilitated thousands of donations, supported numerous causes, and helped create positive impacts in communities across the nation.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="People helping each other" class="mission-image">
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="/imager/Picture3.jpg" alt="Team Member" class="member-image">
+                    <h3>Dattani Dhruvil</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="/imager/aryanb.png" alt="Team Member" class="member-image">
+                    <h3>Aryan Parmar</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="/imager/Picture5.jpg" alt="Team Member" class="member-image">
+                    <h3>Dhruv Pathak</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="/imager/Picture4.jpg" alt="Team Member" class="member-image">
+                    <h3>Prerak Thakkar</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <br>
+                <p>HopeBank is a platform that helps people to contribute to different causes like education, healthcare, animal welfare, and more, easily and securely.</p>
+            </div>
+            <div class="col">
+                <h3>Causes</h3>
+                <ul class="footerlist">
+                    <li>Medical</li>
+                    <li>Crowdfunding</li>
+                    <li>Education</li>
+                    <li>Animal Welfare</li>
+                    <li>NGOs or Charities</li>
+                    <li>Orphanage</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Links</h3>
+                <ul class="footerlist">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Connect with Us</h3>
+                <div class="icon">
+                    <a href="https://facebook.com" class="a1"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://whatsapp.com"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="row2">
+            <p class="copywrite">HopeBank © copyrights 2024-2025</p>
+        </div>
+    </footer> 
+    <script src="/javascript/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope Bank - Login</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="/stylesheet/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    
+    <section class="login-section">
+        <div class="login-container">
+            <div class="login-card">
+                <% if (locals.success) { %>
+                    <div class="success-message" style="color: green; margin-bottom: 20px; text-align: center; padding: 10px; background-color: #e8f5e9; border-radius: 5px;">
+                        <%= success %>
+                    </div>
+                <% } %>
+
+                <h2 class="section-title">Welcome Back</h2>
+                <form action="/login" class="login-form" method="post">
+                    <div class="form-group">
+                        <label for="username">username</label>
+                        <input type="text" name="username" id="username" placeholder="Enter your username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="cta-button">Login</button>
+                </form>
+                <div class="form-footer">
+                    <pre>Login as  <a href="/receiv/loginr">Receiver</a></pre>
+                    <p>Forgot your password? <a href="/forgot-password">Reset it here</a></p>
+                    <p>Don't have an account? <a href="/select">Sign Up</a></p>
+                </div>
+                <% if (typeof errors !== 'undefined') { %>
+                    <div class="errors">
+                        <% errors.forEach(error => { %>
+                            <div class="error"><%= error.msg %></div>
+                        <% }) %>
+                    </div>
+                <% } %>             
+            </div>
+        </div>
+    </section>
+
+    <script src="/javascript/script.js"></script>
+    <script src="/javascript/login.js"></script>
+</body>
+</html>

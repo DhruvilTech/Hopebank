@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation History - Hope Bank</title>
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .history-section {
+            padding: 120px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .history-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(144, 224, 239, 0.2);
+        }
+
+        .history-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 180, 216, 0.2);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-id {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .donation-amount {
+            color: #00b4d8;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .history-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-size: 0.9em;
+            color: gray;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        .payment-method {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 12px;
+            background: #f1f1f1;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .download-receipt {
+            background: #00b4d8;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .download-receipt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.2);
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 150px;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                    <% if (locals.isLoggedIn) { %>
+                        <div class="user-menu">
+                            <div class="profile-dropdown">
+                                <button class="profile-icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="/profile">Profile</a>
+                                    <a href="/Wishlist">Wishlist</a>
+                                    <a href="/history">History</a>
+                                </div>
+                            </div>
+                            <a href="/logout" class="cta-button login-btn">Logout</a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="cta-button login-btn">Login</a>
+                    <% } %>
+                </div>
+                <div class="menu-toggle" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="history-section">
+        <h2 class="section-title">Donation History</h2>
+
+        <% if (Array.isArray(donations) && donations.length > 0) { %>
+            <% donations.forEach(function(donation) { %>
+                <div class="history-card">
+                    <div class="history-header">
+                        <span class="transaction-id">
+                            <i class="fas fa-receipt"></i> TXN: <%= donation.transactionId %>
+                        </span>
+                        <span class="donation-amount">₹<%= Number(donation.amount).toLocaleString() %></span>
+                    </div>
+                    <div class="history-details">
+                        <div class="detail-group">
+                            <span class="detail-label">Recipient</span>
+                            <span class="detail-value"><%= donation.receiverId ? donation.receiverId.Username : "N/A" %></span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Date</span>
+                            <span class="detail-value"><%= new Date(donation.timestamp).toLocaleDateString() %></span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Payment Method</span>
+                            <span class="payment-method">
+                                <i class="fas fa-<%= donation.paymentMethod === 'upi' ? 'mobile-alt' : donation.paymentMethod === 'card' ? 'credit-card' : 'university' %>"></i>
+                                <%= donation.paymentMethod.toUpperCase() %>
+                            </span>
+                        </div>
+                        <div class="detail-group">
+                            <span class="detail-label">Status</span>
+                            <span class="status-badge"><i class="fas fa-check-circle"></i> Success</span>
+                        </div>
+                    </div>
+                    <button onclick="downloadReceipt('<%= donation._id %>')" class="download-receipt">
+                        <i class="fas fa-download"></i> Download Receipt
+                    </button>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="no-history">
+                <i class="fas fa-history"></i>
+                <p>No donation history available</p>
+            </div>
+        <% } %>
+    </section>
+  
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <br>
+                <p>HopeBank is a platform that helps people to contribute to different causes like education, healthcare, animal welfare, and more, easily and securely.</p>
+            </div>
+            <div class="col">
+                <h3>Causes</h3>
+                <ul class="footerlist">
+                    <li>Medical</li>
+                    <li>Crowdfunding</li>
+                    <li>Education</li>
+                    <li>Animal Welfare</li>
+                    <li>NGOs or Charities</li>
+                    <li>Orphanage</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Links</h3>
+                <ul class="footerlist">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Connect with Us</h3>
+                <div class="icon">
+                    <a href="https://facebook.com" class="a1"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://whatsapp.com"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="row2">
+            <p class="copywrite">HopeBank © copyrights 2024-2025</p>
+        </div>
+    </footer> 
+    <script>
+        function downloadReceipt(donationId) {
+            window.location.href = `/payment-success/${donationId}`;
+        }
+
+    </script>
+    <script src="/javascript/script.js"></script>
+</body>
+</html>

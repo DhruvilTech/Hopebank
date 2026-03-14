@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Support - Hope Bank</title>
+    <link rel="shortcut icon" href="/imager/image.png">
+    <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- Same header as medical.html -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="/">Home</a>
+                    <a href="/about">About</a>
+                    <a href="/contact">Contact</a>
+                    <% if (locals.isLoggedIn) { %>
+                        <div class="user-menu">
+                            <div class="profile-dropdown">
+                                <button class="profile-icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </button>
+                                <div class="dropdown-content">
+                                    <a href="/profile">Profile</a>
+                                    <a href="/Wishlist">Wishlist</a>
+                                    <a href="/history">History</a>
+                                </div>
+                            </div>
+                            <a href="/logout" class="cta-button login-btn">Logout</a>
+                        </div>
+                    <% } else { %>
+                        <a href="/login" class="cta-button login-btn">Login</a>
+                    <% } %>
+                </div>
+                <div class="menu-toggle" id="mobileMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section - Same structure as medical.html -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="floating">Orphanage/OldAgeHome Support Cases</h1>
+            <p>Streamline your charitable operations with our powerful and intuitive platform</p>
+        </div>
+    </section>
+    <!-- Education Cases Section -->
+    <section class="cases-section" >
+        <h2 class="section-title">Current  Cases</h2>
+        <div class="cases-grid">
+            <% if (typeof cedonates !== 'undefined' && cedonates.length > 0) { %>
+                <% cedonates.forEach(function(cedonate) { %>
+                    <div class="case-card" onclick="goToDetails(event, '<%= cedonate._id %>')">
+                        <div class="case-image-container">
+                            <img src="<%= cedonate.image %>" alt="<%= cedonate.Username %>" class="case-image">
+                        </div>
+                        <div class="case-content">
+                            <h3 class="case-title"><%= cedonate.Username %></h3>
+                            <div class="case-details">
+                                <p class="case-amount">
+                                    <i class="fas fa-rupee-sign"></i>
+                                    Required Amount: ₹<%= cedonate.requiredMoney.toLocaleString() %>
+                                </p>
+                                <p class="case-contact">
+                                    <i class="fas fa-phone"></i>
+                                    Contact: <%= cedonate.phone %>
+                                </p>
+                                <p class="case-address">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Address: <%= cedonate.address %>
+                                </p>
+                                <p class="case-title">
+                                    <i class="fas fa-info-circle"></i>
+                                    Description: <%= cedonate.Description %>
+                                </p>
+                                <div class="progress-bar" data-progress="<%= Math.round((cedonate.raisedAmount / cedonate.requiredMoney) * 100) %>">
+                                    <progress value="<%= cedonate.raisedAmount %>" max="<%= cedonate.requiredMoney %>"></progress>
+                                </div>
+                            </div>
+                            <a href="/payment/<%= cedonate._id %>"><button class="donate-now-btn">
+                                <i class="fas fa-heart"></i> Donate Now
+                            </button></a>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-cases">
+                    <i class="fas fa-info-circle"></i>
+                    <p>No Orphanage/OldAgeHome cases available at the moment.</p>
+                </div>
+            <% } %>            
+        </div>
+    </section>
+
+    <!-- Same footer as medical.html -->
+   
+    <footer>
+        <div class="row">
+            <div class="col">
+                <div class="logo">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Hope Bank</span>
+                </div>
+                <br>
+                <p>HopeBank is a platform that helps people to contribute to different causes like education, healthcare, animal welfare, and more, easily and securely.</p>
+            </div>
+            <div class="col">
+                <h3>Causes</h3>
+                <ul class="footerlist">
+                    <li>Medical</li>
+                    <li>Crowdfunding</li>
+                    <li>Education</li>
+                    <li>Animal Welfare</li>
+                    <li>NGOs or Charities</li>
+                    <li>Orphanage</li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Links</h3>
+                <ul class="footerlist">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/donor">Donate</a></li>
+                    <li><a href="/services">Services</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>Connect with Us</h3>
+                <div class="icon">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <a href="https://facebook.com" class="a1"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://whatsapp.com"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div id="row2">
+            <p class="copywrite">HopeBank © copyrights 2024-2025</p>
+        </div>
+    </footer> 
+    <script src="/javascript/script.js"></script>
+    <script>
+        function goToDetails(event, id) {
+            // Don't navigate if clicking on the donate button
+            if (!event.target.closest('.donate-now-btn')) {
+                window.location.href = `/receiver/${id}`;
+            }
+        }
+    </script>
+</body>
+</html>
