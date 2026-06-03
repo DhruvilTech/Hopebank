@@ -15,8 +15,7 @@ const adminRoute = require('./routes/admin.route');
 
 const connectToDB = require('./config/db');
 
-// Connect to MongoDB
-connectToDB();
+// Database connection will be initiated before starting the server
 
 // Middleware
 app.set('views', path.join(__dirname, 'views'));
@@ -56,8 +55,10 @@ const startAutoDeleteChecker = () => {
 // Start the auto-delete checker
 startAutoDeleteChecker();
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Connect to MongoDB and then start server
+connectToDB().then(() => {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 });
