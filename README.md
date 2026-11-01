@@ -9,7 +9,7 @@
 HopeBank is a modern, transparent, and robust peer-to-peer crowdfunding platform built on Node.js, Express, and MongoDB. It bridges the gap between donors and receivers across various causes like medical emergencies, education, animal welfare, and community initiatives. 
 
 The platform supports role-based access for Donors, Receivers, and Admins, complete with simulated payments, verification document uploads, wishlist tracking, and automated background tasks to maintain platform cleanliness.
-
+ 
 ---
 
 ## 📂 Project Structure
